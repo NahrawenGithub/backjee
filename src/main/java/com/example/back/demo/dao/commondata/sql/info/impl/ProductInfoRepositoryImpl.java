@@ -34,16 +34,16 @@ public class ProductInfoRepositoryImpl {
         List<String> conditions = paramsToQueryContext.getConditions();
         String[] pageInfo = paramsToQueryContext.getPageInfo();
 
-        TypedQuery<Long> totalCountQuery = (TypedQuery<Long>) entityManager.createNativeQuery(
-                "select count(*) from product_info p where "
-                        + String.join(" AND ", conditions));
+        TypedQuery<ProductInfo> totalCountQuery = entityManager.createQuery(
+                "select p from ProductInfo p where "
+                        + String.join(" AND ", conditions), ProductInfo.class);
 
         mapParams.forEach(totalCountQuery::setParameter);
 
-        List<Long> totalCountQueryResultList = totalCountQuery.getResultList();
+        Long totalCountQueryResultList = (long) totalCountQuery.getResultList().size();
 
-        if (totalCountQueryResultList != null && (Long.parseLong(String.valueOf(totalCountQueryResultList.get(0)))) > 0) {
-            Long totalCount = Long.parseLong(String.valueOf(totalCountQueryResultList.get(0)));
+        if (totalCountQueryResultList != null && (Long.parseLong(String.valueOf(totalCountQueryResultList))) > 0) {
+            Long totalCount = Long.parseLong(String.valueOf(totalCountQueryResultList));
 
             TypedQuery<ProductInfo> query = entityManager.createQuery(
                     "select p from ProductInfo p where "

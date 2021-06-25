@@ -38,7 +38,7 @@ public class ProductQueryHelper {
 
         for (String val : data.split(",")) {
             mapParameters.put(mapParametersKey.getKey(), Integer.parseInt(val));
-            tempList.add("?" + mapParametersKey.getKey());
+            tempList.add("?"+mapParametersKey.getKey());
             mapParametersKey.increment();
         }
         if (data.length() > 0) {
